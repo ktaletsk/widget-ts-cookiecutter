@@ -22,7 +22,7 @@ export class ExampleModel extends DOMWidgetModel {
       _view_name: ExampleModel.view_name,
       _view_module: ExampleModel.view_module,
       _view_module_version: ExampleModel.view_module_version,
-      value: 'Hello World',
+      iframeSrc: 'https://www.wikipedia.com'
     };
   }
 
@@ -41,13 +41,17 @@ export class ExampleModel extends DOMWidgetModel {
 
 export class ExampleView extends DOMWidgetView {
   render() {
-    this.el.classList.add('custom-widget');
+    // Get the value of the iframeSrc attribute from the model
+    const iframeSrc = this.model.get('iframeSrc');
 
-    this.value_changed();
-    this.model.on('change:value', this.value_changed, this);
-  }
+    // Create an iframe element
+    const iframe = document.createElement('iframe');
+    iframe.src = iframeSrc;
+    iframe.width = '100%';
+    iframe.height = '300px';  // Adjust the height as needed
+  
 
-  value_changed() {
-    this.el.textContent = this.model.get('value');
+    // Append the iframe to the widget's DOM element
+    this.el.appendChild(iframe);
   }
 }
